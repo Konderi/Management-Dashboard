@@ -1,6 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import path from 'path';
+import fs from 'fs';
 import { fileURLToPath } from 'url';
 import { authMiddleware } from './middleware/auth.js';
 import { apiRouter } from './routes/api.js';
@@ -23,17 +24,22 @@ app.use('/api', apiRouter);
 app.use('/api', sseRouter);
 
 // Serve frontend build in production
-const clientDist = path.join(__dirname, '../../dist');
+const clientDist = fs.existsSync(path.resolve(process.cwd(), 'dist', 'index.html'))
+  ? path.resolve(process.cwd(), 'dist')
+  : path.resolve(__dirname, '../../dist');
+
 app.use(express.static(clientDist));
 
 app.get('*', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
-  res.sendFile(path.join(clientDist, 'index.html'), (err) => {
-    if (err) {
-      res.status(200).send('Nexus Backend API is running on :3001 (Frontend dev server running on :3000)');
-    }
-  });
+  const indexFile = path.join(clientDist, 'index.html');
+  if (fs.existsSync(indexFile)) {
+    res.sendFile(indexFile);
+  } else {
+    res.status(200).send('Nexus Backend API is running on :3001 (Frontend dev server running on :3000)');
+  }
 });
+
 
 app.listen(PORT, () => {
   console.log(`=======================================================`);
