@@ -5,7 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      network: host
     container_name: nexus-dashboard
+
     restart: unless-stopped
     ports:
       - "3001:3001"

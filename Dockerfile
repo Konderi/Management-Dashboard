@@ -5,7 +5,10 @@ WORKDIR /app
 
 # Copy package descriptors
 COPY package*.json ./
-RUN npm ci
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-mintimeout 20000 \
+    && npm config set fetch-retry-maxtimeout 120000 \
+    && npm ci
 
 # Copy source code
 COPY . .
@@ -22,7 +25,11 @@ ENV NODE_ENV=production
 ENV PORT=3001
 
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm config set fetch-retries 5 \
+    && npm config set fetch-retry-mintimeout 20000 \
+    && npm config set fetch-retry-maxtimeout 120000 \
+    && npm ci --omit=dev
+
 
 # Copy compiled files from builder
 COPY --from=builder /app/dist ./dist
