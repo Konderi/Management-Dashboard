@@ -848,6 +848,16 @@ class TelemetrySimulator {
     };
   }
 
+  public setLiveProxmoxData(nodes: ProxmoxNode[], vms: ProxmoxVm[]) {
+    if (nodes && nodes.length > 0) {
+      this.proxmoxNodes = nodes;
+    }
+    if (vms && vms.length > 0) {
+      this.proxmoxVms = vms;
+    }
+  }
+
+
   // Manage Aruba Switch Port
   public powerCycleArubaPort(portNumber: number): { success: boolean; message: string } {
     const port = this.aruba.ports.find((p) => p.portNumber === portNumber);

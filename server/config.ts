@@ -23,9 +23,10 @@ const defaultConfig: IntegrationConfig = {
   },
   proxmox: {
     host: process.env.PROXMOX_HOST || 'https://192.168.50.15:8006',
-    tokenUser: process.env.PVE_TOKEN_USER || 'root@pam!nexus',
+    tokenUser: process.env.PVE_TOKEN_ID || process.env.PVE_TOKEN_USER || 'root@pam!ControlPlane',
     tokenSecret: process.env.PVE_TOKEN_SECRET || ''
   },
+
   k8s: {
     kubeconfig: process.env.KUBECONFIG || '',
     inCluster: process.env.K8S_IN_CLUSTER === 'true'

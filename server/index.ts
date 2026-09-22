@@ -41,10 +41,30 @@ app.get('*', (req, res, next) => {
 });
 
 
+import { proxmoxService } from './services/proxmoxService.js';
+import { simulator } from './services/simulator.js';
+
+// Periodically sync live Proxmox nodes and VMs
+async function syncLiveProxmox() {
+  try {
+    const data = await proxmoxService.getLiveNodesAndVms();
+    if (data.nodes.length > 0) {
+      simulator.setLiveProxmoxData(data.nodes, data.vms);
+    }
+  } catch (err: any) {
+    console.warn('Proxmox background sync warning:', err.message);
+  }
+}
+
 app.listen(PORT, () => {
   console.log(`=======================================================`);
   console.log(`  NEXUS Infrastructure Control Plane Backend Active`);
   console.log(`  URL: http://localhost:${PORT}`);
   console.log(`  Cloudflare Access Zero Trust & Local PIN Auth Ready`);
   console.log(`=======================================================`);
+
+  // Start live Proxmox sync
+  syncLiveProxmox();
+  setInterval(syncLiveProxmox, 10000);
 });
+
