@@ -1,0 +1,44 @@
+version: '3.8'
+
+services:
+  nexus-dashboard:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: nexus-dashboard
+    restart: unless-stopped
+    ports:
+      - "3001:3001"
+    environment:
+      - PORT=3001
+      - NODE_ENV=production
+      - UNIFI_HOST=${UNIFI_HOST:-https://192.168.1.1}
+      - UNIFI_USER=${UNIFI_USER:-admin}
+      - UNIFI_PASS=${UNIFI_PASS:-}
+      - ARUBA_HOST=${ARUBA_HOST:-https://192.168.20.2}
+      - ARUBA_USER=${ARUBA_USER:-manager}
+      - ARUBA_PASS=${ARUBA_PASS:-}
+      - PROXMOX_HOST=${PROXMOX_HOST:-https://192.168.50.15:8006}
+      - PVE_TOKEN_USER=${PVE_TOKEN_USER:-root@pam!nexus}
+      - PVE_TOKEN_SECRET=${PVE_TOKEN_SECRET:-}
+      - OLLAMA_HOST=${OLLAMA_HOST:-http://192.168.50.21:11434}
+      - VLLM_HOST=${VLLM_HOST:-http://192.168.50.22:8000}
+      - CF_TEAM_NAME=${CF_TEAM_NAME:-konderi}
+      - CF_ZERO_TRUST_AUD=${CF_ZERO_TRUST_AUD:-}
+      - LOCAL_AUTH_PIN=${LOCAL_AUTH_PIN:-1337}
+    volumes:
+      - nexus-data:/app/data
+
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: nexus-cloudflared
+    restart: unless-stopped
+    command: tunnel run
+    environment:
+      - TUNNEL_TOKEN=${CF_TUNNEL_TOKEN:-}
+    depends_on:
+      - nexus-dashboard
+
+volumes:
+  nexus-data:
+

@@ -1,0 +1,476 @@
+/* ==========================================================================
+   NEXUS INFRASTRUCTURE CONTROL PLANE - DESIGN SYSTEM & TOKENS
+   Modern Dark Cyber-Ops Glassmorphism with HSL Tailored Color Hierarchy
+   ========================================================================== */
+
+:root {
+  /* Color Palette - HSL Tailored */
+  --bg-base: hsl(222, 47%, 6%);
+  --bg-surface: hsl(222, 40%, 10%);
+  --bg-surface-elevated: hsl(222, 35%, 14%);
+  --bg-glass: hsla(222, 40%, 11%, 0.72);
+  --bg-glass-hover: hsla(222, 35%, 16%, 0.85);
+  --bg-glass-active: hsla(222, 35%, 20%, 0.9);
+  
+  --border-subtle: hsla(220, 30%, 30%, 0.25);
+  --border-glow: hsla(210, 100%, 65%, 0.35);
+  --border-focus: hsla(210, 100%, 65%, 0.6);
+  
+  /* Text & Typography */
+  --text-primary: hsl(210, 40%, 98%);
+  --text-secondary: hsl(215, 20%, 75%);
+  --text-muted: hsl(217, 15%, 52%);
+  --text-dim: hsl(217, 15%, 38%);
+  
+  /* Brand & Subsystem Accents */
+  --accent-unifi: hsl(212, 100%, 55%);         /* UniFi Cyan / Electric Blue */
+  --accent-unifi-glow: hsla(212, 100%, 55%, 0.25);
+  --accent-aruba: hsl(32, 100%, 50%);          /* Aruba Amber / Bright Orange */
+  --accent-aruba-glow: hsla(32, 100%, 50%, 0.25);
+  --accent-proxmox: hsl(24, 100%, 48%);        /* Proxmox Vivid Orange */
+  --accent-proxmox-glow: hsla(24, 100%, 48%, 0.25);
+  --accent-k8s: hsl(221, 85%, 58%);            /* Kubernetes Royal Blue */
+  --accent-k8s-glow: hsla(221, 85%, 58%, 0.25);
+  --accent-ai: hsl(92, 85%, 48%);              /* NVIDIA / AI Neon Lime */
+  --accent-ai-glow: hsla(92, 85%, 48%, 0.25);
+  --accent-cloudflare: hsl(28, 95%, 54%);      /* Cloudflare Flare */
+  --accent-cloudflare-glow: hsla(28, 95%, 54%, 0.25);
+  
+  /* Status Colors */
+  --status-healthy: hsl(152, 76%, 46%);
+  --status-healthy-glow: hsla(152, 76%, 46%, 0.3);
+  --status-warning: hsl(43, 96%, 56%);
+  --status-warning-glow: hsla(43, 96%, 56%, 0.3);
+  --status-danger: hsl(352, 82%, 58%);
+  --status-danger-glow: hsla(352, 82%, 58%, 0.3);
+  --status-offline: hsl(217, 15%, 45%);
+  
+  /* Radius & Shadows */
+  --radius-sm: 6px;
+  --radius-md: 10px;
+  --radius-lg: 16px;
+  --radius-xl: 22px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 8px -2px rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px -4px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0 16px 36px -6px rgba(0, 0, 0, 0.6);
+  --shadow-glow: 0 0 25px -5px var(--border-glow);
+
+  /* Fonts */
+  --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+
+  color-scheme: dark;
+}
+
+/* Light Theme Overrides (Optional / Supported) */
+html.light-theme {
+  --bg-base: hsl(210, 25%, 96%);
+  --bg-surface: hsl(0, 0%, 100%);
+  --bg-surface-elevated: hsl(210, 20%, 98%);
+  --bg-glass: hsla(0, 0%, 100%, 0.85);
+  --bg-glass-hover: hsla(0, 0%, 100%, 0.95);
+  --border-subtle: hsla(220, 20%, 80%, 0.6);
+  --border-glow: hsla(212, 100%, 55%, 0.3);
+  --text-primary: hsl(222, 47%, 12%);
+  --text-secondary: hsl(215, 20%, 35%);
+  --text-muted: hsl(217, 15%, 50%);
+  --text-dim: hsl(217, 15%, 65%);
+  color-scheme: light;
+}
+
+/* Reset & Base */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--font-ui);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  min-height: 100vh;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-image: 
+    radial-gradient(ellipse 80% 50% at 50% -20%, hsla(212, 100%, 45%, 0.15), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 85% 90%, hsla(28, 95%, 50%, 0.08), transparent 60%),
+    radial-gradient(ellipse 50% 30% at 15% 70%, hsla(92, 85%, 45%, 0.06), transparent 50%);
+  background-attachment: fixed;
+  overflow-x: hidden;
+}
+
+/* Typography Helpers */
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-base);
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(222, 25%, 22%);
+  border-radius: var(--radius-full);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(222, 25%, 32%);
+}
+
+/* ==========================================================================
+   COMPONENT STYLES: Glassmorphic Cards & Panels
+   ========================================================================== */
+
+.glass-panel {
+  background: var(--bg-glass);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.glass-panel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, hsla(210, 100%, 80%, 0.15), transparent);
+  pointer-events: none;
+}
+
+.glass-panel:hover {
+  border-color: hsla(210, 100%, 65%, 0.3);
+  box-shadow: var(--shadow-lg), 0 0 20px -5px hsla(210, 100%, 55%, 0.12);
+}
+
+.glass-panel-subtle {
+  background: hsla(222, 40%, 10%, 0.45);
+  backdrop-filter: blur(12px);
+  border: 1px solid var(--border-subtle);
+  border-radius: var(--radius-md);
+}
+
+/* Status Indicators */
+.status-indicator {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8125rem;
+  font-weight: 500;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: var(--radius-full);
+  position: relative;
+}
+
+.status-dot.healthy {
+  background-color: var(--status-healthy);
+  box-shadow: 0 0 10px var(--status-healthy);
+}
+
+.status-dot.healthy::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: var(--radius-full);
+  background-color: var(--status-healthy);
+  opacity: 0.6;
+  animation: pulse-ring 2s cubic-bezier(0.24, 0, 0.38, 1) infinite;
+}
+
+.status-dot.warning {
+  background-color: var(--status-warning);
+  box-shadow: 0 0 10px var(--status-warning);
+}
+
+.status-dot.danger {
+  background-color: var(--status-danger);
+  box-shadow: 0 0 10px var(--status-danger);
+}
+
+.status-dot.offline {
+  background-color: var(--status-offline);
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(2.5); opacity: 0; }
+}
+
+/* Badges & Pills */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+.badge-unifi {
+  background: var(--accent-unifi-glow);
+  color: hsl(212, 100%, 75%);
+  border: 1px solid hsla(212, 100%, 55%, 0.3);
+}
+
+.badge-aruba {
+  background: var(--accent-aruba-glow);
+  color: hsl(32, 100%, 75%);
+  border: 1px solid hsla(32, 100%, 50%, 0.3);
+}
+
+.badge-proxmox {
+  background: var(--accent-proxmox-glow);
+  color: hsl(24, 100%, 75%);
+  border: 1px solid hsla(24, 100%, 48%, 0.3);
+}
+
+.badge-k8s {
+  background: var(--accent-k8s-glow);
+  color: hsl(221, 100%, 80%);
+  border: 1px solid hsla(221, 85%, 58%, 0.3);
+}
+
+.badge-ai {
+  background: var(--accent-ai-glow);
+  color: hsl(92, 100%, 75%);
+  border: 1px solid hsla(92, 85%, 48%, 0.3);
+}
+
+.badge-cf {
+  background: var(--accent-cloudflare-glow);
+  color: hsl(28, 100%, 75%);
+  border: 1px solid hsla(28, 95%, 54%, 0.3);
+}
+
+/* Buttons */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  border-radius: var(--radius-md);
+  border: 1px solid var(--border-subtle);
+  background: var(--bg-surface-elevated);
+  color: var(--text-primary);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: none;
+}
+
+.btn:hover {
+  background: var(--bg-glass-hover);
+  border-color: var(--border-glow);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, hsl(212, 100%, 48%), hsl(221, 85%, 56%));
+  border: 1px solid hsla(212, 100%, 70%, 0.4);
+  color: #fff;
+  box-shadow: 0 4px 14px hsla(212, 100%, 48%, 0.35);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 6px 20px hsla(212, 100%, 48%, 0.5);
+  border-color: hsla(212, 100%, 80%, 0.6);
+}
+
+.btn-danger {
+  background: linear-gradient(135deg, hsl(352, 82%, 48%), hsl(340, 80%, 44%));
+  border: 1px solid hsla(352, 82%, 65%, 0.4);
+  color: #fff;
+  box-shadow: 0 4px 14px hsla(352, 82%, 48%, 0.35);
+}
+
+.btn-danger:hover {
+  box-shadow: 0 6px 20px hsla(352, 82%, 48%, 0.5);
+}
+
+.btn-sm {
+  padding: 0.3rem 0.65rem;
+  font-size: 0.78rem;
+  border-radius: var(--radius-sm);
+}
+
+.btn-icon {
+  padding: 0.45rem;
+  border-radius: var(--radius-sm);
+}
+
+/* Aruba Switch Faceplate Port Styling */
+.switch-faceplate {
+  background: linear-gradient(180deg, #18202d 0%, #101622 100%);
+  border: 2px solid #28374d;
+  border-radius: var(--radius-md);
+  box-shadow: inset 0 2px 6px rgba(0,0,0,0.8), 0 4px 18px rgba(0,0,0,0.5);
+  padding: 1rem;
+  position: relative;
+}
+
+.rj45-port {
+  width: 58px;
+  height: 68px;
+  background: #0c1018;
+  border: 2px solid #202b3d;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 4px;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rj45-port:hover {
+  border-color: var(--accent-aruba);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px hsla(32, 100%, 50%, 0.25);
+}
+
+.rj45-port.active {
+  border-color: #2b4566;
+}
+
+.rj45-port.poe-active {
+  box-shadow: inset 0 0 10px hsla(32, 100%, 50%, 0.15);
+}
+
+.port-leds {
+  display: flex;
+  gap: 6px;
+  width: 100%;
+  justify-content: center;
+}
+
+.port-led {
+  width: 5px;
+  height: 5px;
+  border-radius: 1px;
+  background: #202b3d;
+}
+
+.port-led.link-up {
+  background: #00ff88;
+  box-shadow: 0 0 6px #00ff88;
+}
+
+.port-led.poe-up {
+  background: #ffaa00;
+  box-shadow: 0 0 6px #ffaa00;
+}
+
+.port-inner-clip {
+  width: 26px;
+  height: 18px;
+  background: #151d2a;
+  border: 1px solid #253347;
+  border-radius: 2px;
+  position: relative;
+}
+
+.port-inner-clip::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background: #0a0d14;
+}
+
+/* Telemetry Metric Cards */
+.metric-card {
+  padding: 1.1rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.metric-title {
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.metric-value {
+  font-family: var(--font-mono);
+  font-size: 1.65rem;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.metric-subtext {
+  font-size: 0.78rem;
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+/* Micro Animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes packetFlow {
+  0% { stroke-dashoffset: 40; }
+  100% { stroke-dashoffset: 0; }
+}
+
+.packet-path {
+  stroke-dasharray: 6 10;
+  animation: packetFlow 1.2s linear infinite;
+}

@@ -1,0 +1,17 @@
+# Cloudflare Tunnel Configuration (cloudflared)
+# Place your tunnel credentials file (e.g. <TUNNEL_ID>.json) in ~/.cloudflared/ or this directory
+
+tunnel: <YOUR_TUNNEL_UUID>
+credentials-file: /etc/cloudflared/<YOUR_TUNNEL_UUID>.json
+
+ingress:
+  # Route traffic for your dashboard through Cloudflare Zero Trust
+  - hostname: dashboard.konderi.fi
+    service: http://nexus-dashboard:3001
+    originRequest:
+      noTLSVerify: true
+      connectTimeout: 10s
+
+  # Fallback 404 for unmatched traffic
+  - service: http_status:404
+
